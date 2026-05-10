@@ -15,7 +15,19 @@ export function Header(){
                             </div>
                             </div>
             
-            
+                              {/*nav */}
+                           <div className="hidden md:flex text-sm items-center gap-2">
+                                <p className="cursor-pointer hover:text-blue-700"
+                                        onClick={() => navigate("/")}>Home</p>
+                                <p className="cursor-pointer hover:text-blue-700"
+                                    onClick={() => navigate("/book")}>Books</p>
+                                <p className="cursor-pointer hover:text-blue-700"
+                                    >Categories</p>
+                                <p className="cursor-pointer hover:text-blue-700"
+                                    onClick={() => {navigate("/about")}}>About Us</p>
+                                <p className="cursor-pointer hover:text-blue-700"
+                                        onClick={() => {navigate("/contact")}}>Contact</p>
+                                </div>
                             
                          
                             <div  className="flex justify-between text-center items-center">
