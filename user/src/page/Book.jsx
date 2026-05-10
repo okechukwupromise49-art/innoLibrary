@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { BookGet } from "../component/BookGet";
 import logo from "../assets/logo.png"
 import { Header } from "../component/Header";
+import API_URL from "../Api";
 
 export function Book(){
 
@@ -13,7 +14,7 @@ export function Book(){
         
              const fetchBooks = async () => {
             try {
-              let url = "http://localhost:4000/api/books/details?";
+              let url = `${API_URL}/api/books/details?`;
         
               if (search) url += `search=${encodeURIComponent(search)}&`;
               if (category) url += `category=${encodeURIComponent(category)}`;

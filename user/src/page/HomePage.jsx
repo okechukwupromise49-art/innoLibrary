@@ -7,6 +7,8 @@ import { BookGet } from "../component/BookGet"
 import { useEffect, useState } from "react"
 import { Header } from "../component/Header"
 
+import API_URL from "../Api";
+
 export function HomePage(){
     
 
@@ -16,7 +18,7 @@ export function HomePage(){
             
                  const fetchBooks = async () => {
                 try {
-                  let url = "http://localhost:4000/api/books/details?";
+                  let url = `${API_URL}/api/books/details?`;
             
                   if (search) url += `search=${encodeURIComponent(search)}&`;
                   if (category) url += `category=${encodeURIComponent(category)}`;
