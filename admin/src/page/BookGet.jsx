@@ -1,10 +1,10 @@
 import { Trash2, Pencil, ExternalLink, Download } from "lucide-react";
-
+import API_URL from "../Api";
 export function BookGet({ books, onEdit }) {
 
   const onDelete = async (id, books) => {
   try {
-    await fetch(`http://localhost:4000/api/books/delete/${id}`, {
+    await fetch(`${API_URL}/api/books/delete/${id}`, {
       method: "DELETE",
     });
      window.location.reload();
