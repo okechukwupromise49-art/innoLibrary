@@ -42,7 +42,7 @@ export function Upload() {
     formData.append("cover", coverFile)
 
     try{
-      const res = await fetch("http://localhost:4000/api/books/upload",
+      const res = await fetch(`${API_URL}/api/books/upload`,
         {
           method: "POST",
           mode: "cors",
