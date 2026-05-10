@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API_URL from "../Api";
 
 export function Upload() {
   const [form, setForm] = useState({
@@ -18,7 +19,7 @@ export function Upload() {
   
       console.log("click")
 
-       const res =  await fetch("http://localhost:4000/api/books/health")
+       const res =  await fetch(`${API_URL}/api/books/health`)
    const data = await res.json()
    console.log(data.message)
       
