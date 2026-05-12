@@ -22,6 +22,7 @@ export function Header(){
                                 <p className="cursor-pointer hover:text-blue-700"
                                     onClick={() => navigate("/book")}>Books</p>
                                 <p className="cursor-pointer hover:text-blue-700"
+                                    onClick={() => navigate("/categories")}
                                     >Categories</p>
                                 <p className="cursor-pointer hover:text-blue-700"
                                     onClick={() => {navigate("/about")}}>About Us</p>
