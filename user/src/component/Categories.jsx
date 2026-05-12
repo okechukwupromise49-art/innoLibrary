@@ -17,6 +17,8 @@ const categoriesList = [
   "Animation", "Ethics", "Research", "General Knowledge"
 ];
 
+
+
 export default function Categories({ onCategorySelect }) {
   const navigate = useNavigate()
   return (

@@ -80,7 +80,7 @@ export function HomePage(){
   <div className="flex items-center shadow-lg rounded p-3">
     <Star size={40} className="bg-purple-100 p-2 rounded text-purple-600"/>
     <div className="ml-3">
-      <h1 className="font-bold">100+</h1>
+      <h1 className="font-bold">60+</h1>
       <span className="text-sm text-gray-500">Categories</span>
     </div>
   </div>
