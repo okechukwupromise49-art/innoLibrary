@@ -1,4 +1,5 @@
 import { BookOpen, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const categoriesList = [
   "Technology", "Science", "Business", "Education", "Literature", "History",
@@ -17,6 +18,7 @@ const categoriesList = [
 ];
 
 export default function Categories({ onCategorySelect }) {
+  const navigate = useNavigate()
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -34,7 +36,7 @@ export default function Categories({ onCategorySelect }) {
           {categoriesList.map((category, index) => (
             <div
               key={index}
-              onClick={() => onCategorySelect?.(category)}
+              onClick={() => navigate("/book")}
               className="group bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl 
                          hover:-translate-y-2 transition-all duration-300 cursor-pointer
                          border border-gray-100 hover:border-blue-200 flex flex-col items-center text-center"

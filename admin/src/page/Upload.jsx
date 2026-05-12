@@ -219,7 +219,7 @@ export function Upload() {
         >
           Upload Book
         </button>
-          <p className="text-green-500 font-sm ">{msg}</p>
+          <p className="text-green-500 text-sm font-bold ">{msg}</p>
           
       </form>
      
