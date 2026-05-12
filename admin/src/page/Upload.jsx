@@ -161,12 +161,10 @@ export function Upload() {
         >
           Upload Book
         </button>
-          <p>{msg}</p>
+          <p className="text-green-400 font-sm ">{msg}</p>
           
       </form>
-      <button
-          
-            onClick={handletest}>test</button>
+     
     </div>
   );
 }
