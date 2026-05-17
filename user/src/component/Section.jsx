@@ -21,7 +21,7 @@ export function Section() {
         </h1>
 
         <div className="text-gray-500 text-sm mt-3">
-          <p>Access thousands of free books, research materials,</p>
+          <p className="">Access thousands of free books, research materials,</p>
           <p>and educational resources anytime, anywhere.</p>
         </div>
 
