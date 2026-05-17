@@ -32,9 +32,16 @@ router.post("/upload",
                   message: "Book uploaded successfully",         
                   data: newBook,      
                  });    
-                 } catch (error) {       
-                  res.status(500).json({ error: error.message });     
-                }   
+                 } catch (error) {
+
+            console.error(error);
+
+            return res.status(500).json({
+              success: false,
+              message: "Invalid or corrupted PDF file",
+            });
+
+    } 
               } );
 
 
