@@ -10,7 +10,7 @@ export function Section() {
       {/* LEFT SIDE */}
       <div>
         <p className="p-2 mt-4 bg-blue-100 w-fit text-sm text-blue-700 rounded">
-          Welcome To InnovativeLibrary
+          Welcome To Innovative E-Library
         </p>
 
         <h1 className="font-bold text-gray-800 text-4xl mt-4">
