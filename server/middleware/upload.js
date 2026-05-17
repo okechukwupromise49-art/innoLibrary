@@ -9,7 +9,7 @@ const storage = new CloudinaryStorage({
   return {
     folder: "elibrary/books",
     resource_type: "raw",
-    format: "pdf",          // ✅ force correct format
+             // ✅ force correct format
     use_filename: true,     // ✅ keep original name
     unique_filename: false, // ✅ cleaner URL
   };
