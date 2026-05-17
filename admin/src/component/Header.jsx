@@ -10,7 +10,7 @@ export function Header(){
                             <img src={logo} alt="" className="w-14" />
                             <div>
                                 <span className="font-bold text-lg text-yellow-600">Innovative </span> 
-                                <span className="font-bold">E-Library</span>
+                                <span className="font-bold">{""}E-Library</span>
                                 <p className="text-xs text-gray-400">Your Digital Library</p>
                             </div>
                             </div>
