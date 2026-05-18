@@ -4,12 +4,14 @@ const router = express.Router();
 const Book = require("../models/book");
 const upload = require("../middleware/upload");
 const { supabase } = require("../supaBase/supabaseClient.js")
+const fs = require("fs");
 
 
 router.post("/upload", upload.fields([
   { name: "book", maxCount: 1 },
   { name: "cover", maxCount: 1 },
 ]), async (req, res) => {
+
   try {
 
     const { title, author, category, description } = req.body;
@@ -24,12 +26,16 @@ router.post("/upload", upload.fields([
     const bookFile = req.files.book[0];
     const coverFile = req.files.cover[0];
 
+    // READ FILES FROM DISK
+    const bookBuffer = fs.readFileSync(bookFile.path);
+    const coverBuffer = fs.readFileSync(coverFile.path);
+
     // ---------- UPLOAD BOOK ----------
     const bookName = `${Date.now()}-${bookFile.originalname}`;
 
     const { error: bookError } = await supabase.storage
       .from("book")
-      .upload(bookName, bookFile.buffer, {
+      .upload(bookName, bookBuffer, {
         contentType: bookFile.mimetype,
       });
 
@@ -44,7 +50,7 @@ router.post("/upload", upload.fields([
 
     const { error: coverError } = await supabase.storage
       .from("book")
-      .upload(coverName, coverFile.buffer, {
+      .upload(coverName, coverBuffer, {
         contentType: coverFile.mimetype,
       });
 
@@ -54,7 +60,7 @@ router.post("/upload", upload.fields([
       .from("book")
       .getPublicUrl(coverName);
 
-    // ---------- SAVE TO DB ----------
+    // ---------- SAVE TO DATABASE ----------
     const newBook = new Book({
       title,
       author,
@@ -66,6 +72,10 @@ router.post("/upload", upload.fields([
 
     await newBook.save();
 
+    // DELETE TEMP FILES
+    fs.unlinkSync(bookFile.path);
+    fs.unlinkSync(coverFile.path);
+
     return res.status(200).json({
       success: true,
       message: "Book uploaded successfully",
@@ -73,12 +83,16 @@ router.post("/upload", upload.fields([
     });
 
   } catch (error) {
+
     console.error(error);
+
     return res.status(500).json({
       success: false,
       message: error.message,
     });
+
   }
+
 });
 
 
