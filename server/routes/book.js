@@ -3,76 +3,82 @@ const router = express.Router();
 
 const Book = require("../models/book");
 const upload = require("../middleware/upload");
+const { supabase } = require("../supaBase/supabaseClient.js")
 
 
-router.post("/upload", (req, res) => {
+router.post("/upload", upload.fields([
+  { name: "book", maxCount: 1 },
+  { name: "cover", maxCount: 1 },
+]), async (req, res) => {
+  try {
 
-  upload.fields([
-    { name: "book", maxCount: 1 },
-    { name: "cover", maxCount: 1 },
-  ])(req, res, async (err) => {
+    const { title, author, category, description } = req.body;
 
-    // MULTER ERRORS
-    if (err) {
-
-      console.error(err);
-
-      if (err.code === "LIMIT_FILE_SIZE") {
-        return res.status(400).json({
-          success: false,
-          message: "File too large. Max size is 100MB",
-        });
-      }
-
-      return res.status(500).json({
+    if (!req.files || !req.files.book || !req.files.cover) {
+      return res.status(400).json({
         success: false,
-        message: err.message,
+        message: "Book and cover required",
       });
     }
 
-    try {
+    const bookFile = req.files.book[0];
+    const coverFile = req.files.cover[0];
 
-      const { title, author, category, description } = req.body;
+    // ---------- UPLOAD BOOK ----------
+    const bookName = `${Date.now()}-${bookFile.originalname}`;
 
-      if (!req.files.book || !req.files.cover) {
-        return res.status(400).json({
-          success: false,
-          message: "Book and cover required",
-        });
-      }
-
-      const bookFile = req.files.book[0];
-      const coverFile = req.files.cover[0];
-
-      const newBook = new Book({
-        title,
-        author,
-        category,
-        description,
-        bookUrl: bookFile.path,
-        coverUrl: coverFile.path,
+    const { error: bookError } = await supabase.storage
+      .from("books")
+      .upload(bookName, bookFile.buffer, {
+        contentType: bookFile.mimetype,
       });
 
-      await newBook.save();
+    if (bookError) throw bookError;
 
-      return res.status(200).json({
-        success: true,
-        message: "Book uploaded successfully",
-        data: newBook,
+    const { data: bookUrlData } = supabase.storage
+      .from("books")
+      .getPublicUrl(bookName);
+
+    // ---------- UPLOAD COVER ----------
+    const coverName = `${Date.now()}-${coverFile.originalname}`;
+
+    const { error: coverError } = await supabase.storage
+      .from("books")
+      .upload(coverName, coverFile.buffer, {
+        contentType: coverFile.mimetype,
       });
 
-    } catch (error) {
+    if (coverError) throw coverError;
 
-      console.error(error);
+    const { data: coverUrlData } = supabase.storage
+      .from("books")
+      .getPublicUrl(coverName);
 
-      return res.status(500).json({
-        success: false,
-        message: "Upload failed",
-      });
-    }
+    // ---------- SAVE TO DB ----------
+    const newBook = new Book({
+      title,
+      author,
+      category,
+      description,
+      bookUrl: bookUrlData.publicUrl,
+      coverUrl: coverUrlData.publicUrl,
+    });
 
-  });
+    await newBook.save();
 
+    return res.status(200).json({
+      success: true,
+      message: "Book uploaded successfully",
+      data: newBook,
+    });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 });
 
 
