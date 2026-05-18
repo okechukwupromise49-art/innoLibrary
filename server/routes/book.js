@@ -28,7 +28,7 @@ router.post("/upload", upload.fields([
     const bookName = `${Date.now()}-${bookFile.originalname}`;
 
     const { error: bookError } = await supabase.storage
-      .from("books")
+      .from("book")
       .upload(bookName, bookFile.buffer, {
         contentType: bookFile.mimetype,
       });
