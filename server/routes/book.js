@@ -36,14 +36,14 @@ router.post("/upload", upload.fields([
     if (bookError) throw bookError;
 
     const { data: bookUrlData } = supabase.storage
-      .from("books")
+      .from("book")
       .getPublicUrl(bookName);
 
     // ---------- UPLOAD COVER ----------
     const coverName = `${Date.now()}-${coverFile.originalname}`;
 
     const { error: coverError } = await supabase.storage
-      .from("books")
+      .from("book")
       .upload(coverName, coverFile.buffer, {
         contentType: coverFile.mimetype,
       });
@@ -51,7 +51,7 @@ router.post("/upload", upload.fields([
     if (coverError) throw coverError;
 
     const { data: coverUrlData } = supabase.storage
-      .from("books")
+      .from("book")
       .getPublicUrl(coverName);
 
     // ---------- SAVE TO DB ----------
